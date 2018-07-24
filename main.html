@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Copy/past image</title>
+
+  <style>
+  </style>
+
+  <script src="pasteimage.js"></script>
+
+</head>
+
+<body>
+  <div class="main">
+    <h1>Form to upload image</h1>
+    <p>What is it for?</p>
+    <p>It allows you to paste image (screenshot) on your web-site. First press _Ctrl+Shift+PrntScrn_, than paste by pressing
+      <b>Ctrl+V</b>!
+    </p>
+
+    <form action="" method="post">
+      <textarea name="msg" class="arena data" id="myTextarea"></textarea>
+    </form>
+
+    <div class="">
+      <canvas id="canvas_id"></canvas>
+    </div>    
+  </div>
+
+  <script>
+    var pasteImage = new PasteImage(
+      document.getElementById("canvas_id"),
+      document.getElementById("myTextarea")
+    );
+    pasteImage.init();
+  </script>
+
+
+</body>
+
+</html>
