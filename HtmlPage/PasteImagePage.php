@@ -11,6 +11,8 @@ use AG\TextareaUploader\HtmlPage;
  * stream_copy_to_stream($input, $file);
  * fclose($input);
  * fclose($file);
+ *
+ * @author Alexandr Gorlov
  */
 final class PasteImagePage implements HtmlPage {
 
@@ -19,23 +21,22 @@ final class PasteImagePage implements HtmlPage {
 
     private $uploadDir;
 
+    private $webDir;
+
     /**
      * Constructor.
      *
      * @param \SplFileObject $POSTBody post-body contains binary image
      * @param string $uploadDir directory to store uploaded images
      */
-    public function __construct(\SplFileObject $POSTBody, string $uploadDir = './files') {
+    public function __construct(\SplFileObject $POSTBody, string $uploadDir = './files', string $webDir = '/files') {
         $this->POSTBody = $POSTBody;
         $this->uploadDir = $uploadDir;
+        $this->webDir = $webDir;
     }
 
 
     public function print() : string {
-        // // POST has come
-        // if (! isset($_SERVER['HTTP_X_PASTEIMAGE'])) {
-        // return "error: bad request, no header X-PASTEIMAGE.";
-        // }
 
 
         $dst = new \SplFileObject($this->uploadDir . "/test.png", 'w+');
@@ -53,6 +54,8 @@ final class PasteImagePage implements HtmlPage {
             throw new \Exception("Image size is 0 bytes. (in POST body)");
         }
 
-        return "ok: {$this->uploadDir}/test.png";
+        return "{$this->webDir}/test.png";
     }
 }
+
+

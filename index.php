@@ -18,6 +18,8 @@ use AG\TextareaUploader\HtmlPage\PasteImagePage;
 use AG\TextareaUploader\HtmlPage\Page404;
 use AG\TextareaUploader\HtmlPage\ExceptionPage;
 
+//echo "<pre>";
+//print_r($_SERVER);
 
 try {
     echo 
@@ -27,7 +29,11 @@ try {
                 '/' => new IndexPage(__DIR__),
                 '/paste' => new PasteImagePage(
                     new SplFileObject('php://input'),
-                    __DIR__ . '/files'
+                    __DIR__ . '/files',
+                    ($_SERVER['REQUEST_SCHEME'] ?? 'http') .
+                        "://{$_SERVER['SERVER_NAME']}" .
+                        (($_SERVER['SERVER_PORT'] != 80) ? ":{$_SERVER['SERVER_PORT']}" : '') .
+                        "/files"
                 ),
                 //'/upload' => new UploadFilePage($_FILES, $_SERVER['REQUEST_METHOD'])
             ],
