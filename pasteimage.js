@@ -71,7 +71,7 @@ class PasteImage {
             // cursor position
             //if (this.textarea.selectionStart)
 
-            var myLink = "![image]" + httpRequest.responseText;
+            var myLink = "![image](" + httpRequest.responseText + ")";
 
             var cursorPos = this.textarea.selectionStart;
 

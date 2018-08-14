@@ -39,7 +39,8 @@ final class PasteImagePage implements HtmlPage {
     public function print() : string {
 
 
-        $dst = new \SplFileObject($this->uploadDir . "/test.png", 'w+');
+        $fileName = uniqid() . ".png";
+        $dst = new \SplFileObject($this->uploadDir . "/" . $fileName, 'w+');
 
         while (!$this->POSTBody->eof()) {
             $dst->fwrite(
@@ -54,7 +55,7 @@ final class PasteImagePage implements HtmlPage {
             throw new \Exception("Image size is 0 bytes. (in POST body)");
         }
 
-        return "{$this->webDir}/test.png";
+        return "{$this->webDir}/{$fileName}";
     }
 }
 
