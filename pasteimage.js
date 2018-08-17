@@ -18,6 +18,8 @@ class PasteImage {
         this.canvas = canvas; //document.getElementById("canvas_id");
         this.textarea = textarea; //document.getElementById("canvas_id");
         this.ctx = this.canvas.getContext("2d");
+
+        this.uplText = "![Uploading image.png…]()";
     }
 
     init(element) {
@@ -68,22 +70,35 @@ class PasteImage {
             // console.log("upload: onload event", httpRequest.responseText);
             // console.log("textarea", this.textarea);
 
-            // cursor position
-            //if (this.textarea.selectionStart)
-
             var myLink = "![image](" + httpRequest.responseText + ")";
 
             var cursorPos = this.textarea.selectionStart;
 
-            // insert image link
-            this.textarea.value =
-                this.textarea.value.substr(0, this.textarea.selectionStart) +
-                "\n" + myLink + "\n" +
-                this.textarea.value.substr(this.textarea.selectionStart);
+
+            // replace image link
+            var imgPos = this.textarea.value.indexOf(this.uplText);
+            var imgUplLen = this.uplText.length;
+
+            if (imgPos >= 0) {
+                this.textarea.value =
+                    this.textarea.value.substr(0, imgPos) +
+                    myLink +
+                    this.textarea.value.substr(imgPos + imgUplLen);
+
+            } else {
+                console.log("uploading image link not found: " + this.uplText);
+            }
 
             // move cursor right after image link
             this.textarea.selectionEnd = cursorPos + myLink.length + 1;
         };
         httpRequest.send(blob);
+
+        // put loading text: in textarea ![Uploading image.png…]()
+        this.textarea.value =
+            this.textarea.value.substr(0, this.textarea.selectionStart) +
+            "\n" + this.uplText + "\n" +
+            this.textarea.value.substr(this.textarea.selectionStart);
+
     }
 }
