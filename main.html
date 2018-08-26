@@ -10,8 +10,6 @@
   <style>
   </style>
 
-  <script src="pasteimage.js"></script>
-
 </head>
 
 <body>
@@ -34,6 +32,9 @@
     </div>    
   </div>
 
+  <!-- Previous non oop implementation -->
+  <!--
+  <script src="pasteimage.js"></script>
   <script>
     var pasteImage = new PasteImage(
       document.getElementById("canvas_id"),
@@ -41,6 +42,15 @@
     );
     pasteImage.init();
   </script>
+  -->
+
+  <script type="application/javascript" src="pasteobjects.js"></script>
+  <script>
+      new AGTextareaUploader(
+          document.getElementById('myTextarea')
+      ).run();
+  </script>
+
 
 
 </body>

@@ -22,8 +22,7 @@ class PasteImage {
         this.uplText = "![Uploading image.png…]()";
     }
 
-    init(element) {
-        var textarea = this.textarea;
+    init() {
         this.textarea.addEventListener('paste', event => {
             console.log(event.target);
             console.log(event);
@@ -41,25 +40,15 @@ class PasteImage {
         let items = event.clipboardData.items;
         if (items[0].type.indexOf("image") !== -1) {
             let blob = items[0].getAsFile();
-            let URLObj = window.URL || window.webkitURL;
-            let source = URLObj.createObjectURL(blob);
+
             this.postPrintScreen(blob);
-            this.pasteCreateImage(source);
+
             event.preventDefault();
         } else {
             console.log("clipboard doesn't contain image");
         }
     }
 
-    pasteCreateImage(source) {
-        let pastedImage = new Image();
-        pastedImage.onload = () => {
-            this.canvas.height = pastedImage.height / 2;
-            this.canvas.width = pastedImage.width / 2;
-            this.ctx.drawImage(pastedImage, 0, 0);
-        };
-        pastedImage.src = source;
-    }
 
     postPrintScreen(blob) {
         let httpRequest = new XMLHttpRequest();
