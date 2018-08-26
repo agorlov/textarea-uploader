@@ -12,7 +12,10 @@
  * Event
  *
  * Example:
- * new AGEvent('paste', document.getElementById('body');
+ * ```
+ * new AGEvent('paste', document.getElementById('body')).
+ *     add(event => { console.log("The event happened.") });
+ * ```
  *
  * @author Alexandr Gorlov
  */
