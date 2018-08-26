@@ -18,8 +18,6 @@ use AG\TextareaUploader\HtmlPage\PasteImagePage;
 use AG\TextareaUploader\HtmlPage\Page404;
 use AG\TextareaUploader\HtmlPage\ExceptionPage;
 
-//echo "<pre>";
-//print_r($_SERVER);
 
 try {
     echo 

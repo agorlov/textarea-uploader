@@ -57,7 +57,7 @@ class PasteImage {
             this.canvas.height = pastedImage.height / 2;
             this.canvas.width = pastedImage.width / 2;
             this.ctx.drawImage(pastedImage, 0, 0);
-        }
+        };
         pastedImage.src = source;
     }
 
@@ -66,14 +66,22 @@ class PasteImage {
         httpRequest.open("POST", "/paste", true);
         httpRequest.setRequestHeader("X-PASTEIMAGE", "1");
         // httpRequest.setRequestHeader("Content-Type", "image/png");
+
+        // if cursor at the beginnig of new line, dont add new line
+        // if cursor in the middle of a line, add new line
+        let startCursorPos = this.textarea.selectionStart;
+        let newLine = "\n";
+        if (startCursorPos === 0) {
+            newLine = "";
+        } else if (startCursorPos > 0 && this.textarea.value[startCursorPos - 1] === "\n") {
+            newLine = "";
+        }
+
         httpRequest.onload = (event) => {
             // console.log("upload: onload event", httpRequest.responseText);
             // console.log("textarea", this.textarea);
 
             var myLink = "![image](" + httpRequest.responseText + ")";
-
-            var cursorPos = this.textarea.selectionStart;
-
 
             // replace image link
             var imgPos = this.textarea.value.indexOf(this.uplText);
@@ -90,14 +98,14 @@ class PasteImage {
             }
 
             // move cursor right after image link
-            this.textarea.selectionEnd = cursorPos + myLink.length + 1;
+            this.textarea.selectionEnd = imgPos + myLink.length + 1;
         };
         httpRequest.send(blob);
 
         // put loading text: in textarea ![Uploading image.png…]()
         this.textarea.value =
             this.textarea.value.substr(0, this.textarea.selectionStart) +
-            "\n" + this.uplText + "\n" +
+            newLine + this.uplText + "\n" +
             this.textarea.value.substr(this.textarea.selectionStart);
 
     }
